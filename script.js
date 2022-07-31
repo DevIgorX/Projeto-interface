@@ -2,6 +2,7 @@
 const moviesEl = document.querySelector('.movies')
 const btn_Next = document.querySelector('.btn-next')
 const btn_Prev = document.querySelector('.btn-prev')
+const input = document.querySelector('input')
 
 const listagemTop20Url = 'https://tmdb-proxy.cubos-academy.workers.dev/3/discover/movie?language=pt-BR'
 
@@ -9,21 +10,22 @@ let primeiraPag = 0
 let UltimaPag = 5
 let filmes = []
 let filmesDaPag = []
+function top20() {
+    fetch(listagemTop20Url).then((resposta) => {
+        return resposta.json()
+    }).then((dados) => {
+        filmesDaPag = dados.results.slice(primeiraPag, UltimaPag)
+        filmes = dados.results
+        console.log(filmesDaPag)
+        filmesDaPag.forEach(filme => {
 
-fetch(listagemTop20Url).then((resposta) => {
-    return resposta.json()
-}).then((dados) => {
-    filmesDaPag = dados.results.slice(primeiraPag, UltimaPag)
-    filmes = dados.results
-    console.log(filmes)
-    filmesDaPag.forEach(filme => {
+            criarmovie(filme)
 
-        criarmovie(filme)
+        });
 
-
-    });
-
-})
+    })
+}
+top20()
 
 btn_Next.addEventListener('click', function () {
     if (primeiraPag > filmes.length - 6) {
@@ -83,7 +85,39 @@ function criarmovie(filme) {
     moviesEl.append(divmovie)
 }
 
+input.addEventListener('keypress', function (event) {
+    if (event.code !== "Enter") {
+        return
+    }
+    primeiraPag = 0
+    UltimaPag = 5
+    if (!input.value) {
 
+        moviesEl.innerHTML = ''
+        top20()
+        return
+
+    }
+    const promise = fetch(`https://tmdb-proxy.cubos-academy.workers.dev/3/search/movie?language=pt-BR&include_adult=false**&query=${input.value}**`)
+    promise.then(function (resposta) {
+        const promisebody = resposta.json()
+        promisebody.then(function (body) {
+
+            filmesDaPag = body.results.slice(primeiraPag, UltimaPag)
+            filmes = body.results
+            moviesEl.innerHTML = ''
+            input.value = ''
+            filmesDaPag.forEach(filme => {
+
+                criarmovie(filme)
+
+            });
+
+        })
+
+    })
+
+})
 
 
 
