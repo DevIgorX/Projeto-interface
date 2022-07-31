@@ -3,6 +3,27 @@ const moviesEl = document.querySelector('.movies')
 const btn_Next = document.querySelector('.btn-next')
 const btn_Prev = document.querySelector('.btn-prev')
 const input = document.querySelector('input')
+const divModal = document.querySelector('.modal')
+const imgClose = document.querySelector('.modal__close')
+const h3_Modal_Title = document.querySelector('.modal__title')
+const imgModal = document.querySelector('.modal__img')
+const p_Modal_description = document.querySelector('.modal__description')
+const div_modal__genre_average = document.querySelector('.modal__genre-average')
+const div_modal_genres = document.querySelector('.modal__genres')
+const div_modal_average = document.querySelector('.modal__average')
+const highlight = document.querySelector('.highlight')
+const a_highlight__video = document.querySelector('.highlight__video-link')
+const div_highlight__video = document.querySelector('.highlight__video')
+const highlight__info = document.querySelector('.highlight__info')
+const highlight__title_rating = document.querySelector('.highlight__title-rating')
+const highlight__title = document.querySelector('.highlight__title')
+const highlight__rating = document.querySelector('.highlight__rating')
+const highlight__genre_launch = document.querySelector('.highlight__genre-launch')
+const highlight__genres = document.querySelector('.highlight__genres')
+const highlight__launch = document.querySelector('.highlight__launch')
+const highlight__description = document.querySelector('.highlight__description')
+
+
 
 const listagemTop20Url = 'https://tmdb-proxy.cubos-academy.workers.dev/3/discover/movie?language=pt-BR'
 
@@ -16,7 +37,6 @@ function top20() {
     }).then((dados) => {
         filmesDaPag = dados.results.slice(primeiraPag, UltimaPag)
         filmes = dados.results
-        console.log(filmesDaPag)
         filmesDaPag.forEach(filme => {
 
             criarmovie(filme)
@@ -69,8 +89,15 @@ function criarmovie(filme) {
     const movie_title = document.createElement('span')
     const movie_rating = document.createElement('span')
     const img = document.createElement('img')
+    const idfilme = filme.id
+    console.log(idfilme)
 
     img.src = './assets/estrela.svg'
+    divmovie.addEventListener("click", function () {
+        divModal.classList.remove("hidden")
+        Modal(idfilme)
+
+    })
 
     divmovie.classList.add('movie')
     divmovie.style.backgroundImage = `url(${filme.poster_path})`
@@ -119,5 +146,21 @@ input.addEventListener('keypress', function (event) {
 
 })
 
+function Modal(idfilme) {
+    const PromiseModal = fetch(`https://tmdb-proxy.cubos-academy.workers.dev/3/movie/${idfilme}?language=pt-BR`)
+    PromiseModal.then(function (resposta) {
+        const Promisebody = resposta.json()
+        Promisebody.then(function (body) {
+            h3_Modal_Title.textContent = body.title
+            imgModal.src = body.backdrop_path
+            p_Modal_description.textContent = body.overview
+            div_modal_average.textContent = body.vote_average
+        })
+    })
+
+}
+imgClose.addEventListener('click', function () {
+    divModal.classList.add("hidden")
+})
 
 
