@@ -62,7 +62,8 @@ body {
   color: var(--color);
 }
 
-.input, .input::placeholder {
+.input,
+.input::placeholder {
   font-family: 'Manrope', sans-serif;
   font-style: normal;
   font-weight: normal;
@@ -74,7 +75,8 @@ body {
   color: var(--input-border-color);
 }
 
-.movies-container, .movies {
+.movies-container,
+.movies {
   display: flex;
   align-items: center;
   gap: 24px;
@@ -84,7 +86,8 @@ body {
   margin-bottom: 40px;
 }
 
-.btn-prev, .btn-next {
+.btn-prev,
+.btn-next {
   cursor: pointer;
 }
 
@@ -160,7 +163,7 @@ body {
 .highlight__video {
   width: 550px;
   height: 340px;
-
+  background-size: cover;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -214,7 +217,7 @@ body {
   text-transform: uppercase;
 
   color: var(--highlight-color);
-  
+
   margin-bottom: 36px;
 }
 
@@ -282,7 +285,7 @@ body {
   font-weight: normal;
   font-size: 20px;
   line-height: 150%;
-  
+
   color: #FFFFFF;
 
   margin-bottom: 20px;
@@ -300,7 +303,8 @@ body {
   gap: 12px;
 }
 
-.modal__genre, .modal__average {
+.modal__genre,
+.modal__average {
   border-radius: 8px;
   padding: 10px;
 
@@ -309,7 +313,7 @@ body {
   font-weight: bold;
   font-size: 20px;
   line-height: 150%;
-  
+
   color: #FFFFFF;
 }
 

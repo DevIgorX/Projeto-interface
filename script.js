@@ -38,11 +38,8 @@ function top20() {
         filmesDaPag = dados.results.slice(primeiraPag, UltimaPag)
         filmes = dados.results
         filmesDaPag.forEach(filme => {
-
             criarmovie(filme)
-
         });
-
     })
 }
 top20()
@@ -76,9 +73,7 @@ btn_Prev.addEventListener('click', function () {
     filmesDaPag = filmes.slice(primeiraPag, UltimaPag)
     moviesEl.innerHTML = ''
     filmesDaPag.forEach(filme => {
-
         criarmovie(filme)
-
     });
 })
 
@@ -90,9 +85,9 @@ function criarmovie(filme) {
     const movie_rating = document.createElement('span')
     const img = document.createElement('img')
     const idfilme = filme.id
-    console.log(idfilme)
 
     img.src = './assets/estrela.svg'
+
     divmovie.addEventListener("click", function () {
         divModal.classList.remove("hidden")
         Modal(idfilme)
@@ -135,15 +130,10 @@ input.addEventListener('keypress', function (event) {
             moviesEl.innerHTML = ''
             input.value = ''
             filmesDaPag.forEach(filme => {
-
                 criarmovie(filme)
-
             });
-
         })
-
     })
-
 })
 
 function Modal(idfilme) {
@@ -164,3 +154,34 @@ imgClose.addEventListener('click', function () {
 })
 
 
+function endpointGeral() {
+    const promiseGeral = fetch(`https://tmdb-proxy.cubos-academy.workers.dev/3/movie/436969?language=pt-BR`)
+    promiseGeral.then(function (resposta) {
+        const promisebody = resposta.json()
+        promisebody.then(function (body) {
+            const Objgenres = []
+            body.genres.forEach(function (item) {
+                Objgenres.push(item.name)
+            })
+            const data = new Date(body.release_date)
+            const formatodeData = Intl.DateTimeFormat("pt-BR", { dateStyle: "long" })
+            highlight__genres.textContent = Objgenres.join(", ")
+            highlight__launch.textContent = formatodeData.format(data)
+            div_highlight__video.style.backgroundImage = `url(${body.backdrop_path})`
+            highlight__title.textContent = body.title
+            highlight__rating.textContent = body.vote_average
+            highlight__description.textContent = body.overview
+        })
+    })
+}
+endpointGeral()
+function endpointVideo() {
+    const PromiseVideo = fetch(`https://tmdb-proxy.cubos-academy.workers.dev/3/movie/436969/videos?language=pt-BR`)
+    PromiseVideo.then(function (resposta) {
+        const retorno = resposta.json()
+        retorno.then(function (body) {
+            a_highlight__video.href = `https://www.youtube.com/watch?v=${body.results[0].key}`
+        })
+    })
+}
+endpointVideo()
