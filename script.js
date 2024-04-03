@@ -43,6 +43,7 @@ function top20() {
     })
 }
 top20()
+//sdfok
 
 btn_Next.addEventListener('click', function () {
     if (primeiraPag > filmes.length - 6) {
